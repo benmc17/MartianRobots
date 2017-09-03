@@ -27,7 +27,7 @@ public class MarsImpl implements Mars {
 		
 		if(x < 0 || y < 0) {
 			return false;
-		} else if(x >= bounds.getX() || y >= bounds.getY()) {
+		} else if(x > bounds.getX() || y > bounds.getY()) {
 			return false;
 		}
 		return true;

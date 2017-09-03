@@ -145,5 +145,8 @@ public class MarsTest {
 
 		@Override
 		public boolean turnRight() {return true;}
+		
+		@Override
+		public Coords getLocation() {return null;}
 	}
 }

@@ -16,6 +16,8 @@ public interface Robot {
 	
 	int getY();
 	
+	Coords getLocation();
+	
 	boolean moveForward();
 	
 	boolean moveBackward();

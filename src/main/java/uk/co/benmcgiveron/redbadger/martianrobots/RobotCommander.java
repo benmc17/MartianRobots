@@ -60,14 +60,9 @@ public class RobotCommander {
 				}
 				Robot robot = new RobotImpl(robotX, robotY, orientation, scents);
 				
-				if(!executeCommands(robot, in.next())) {
+				if(!executeCommands(robot, mars, in.next(), scents)) {
 					System.out.print("Error: Unable to execute commands, there could be an unrecognised command?");
 					return false;
-				}
-				System.out.printf("%d %d %s", robot.getX(), robot.getY(), robot.getOrientation());
-
-				if(!mars.isOnMars(robot)) {
-					System.out.print(" LOST");
 				}
 				System.out.println();
 			}
@@ -86,11 +81,12 @@ public class RobotCommander {
 	 * @param commandLine
 	 * @return false if operation fails, true otherwise
 	 */
-	private static boolean executeCommands(Robot robot, String commandLine) {
+	private static boolean executeCommands(Robot robot, Mars mars, String commandLine, Set<Coords> scents) {
 		if(commandLine == null) return false;
 		
 		final char[] commandChars = commandLine.toCharArray();
 		final CommandFactory factory = CommandFactory.getInstance();
+		Coords lostLocation = null;
 		
 		for(char commandChar : commandChars) {
 			Command command = factory.newCommand(commandChar);
@@ -98,10 +94,19 @@ public class RobotCommander {
 			if(command == null) {
 				return false;
 			}
-			if(!command.executeCommand(robot)) {
-				System.out.printf("Failed to execute command: %s", commandChar);
-				return false;
+			Coords newLocation = command.executeCommand(robot, mars);
+					
+			// if the location hasnt changed i.e. the robot hasnt moved and the robot is not already lost
+			if(newLocation != null && !newLocation.equals(robot.getLocation()) && lostLocation == null) {
+				lostLocation = newLocation;
+				scents.add(newLocation);
 			}
+		}
+		
+		if(lostLocation != null) {
+			System.out.printf("%d %d %s LOST", lostLocation.getX(), lostLocation.getY(), robot.getOrientation());
+		} else {
+			System.out.printf("%d %d %s", robot.getX(), robot.getY(), robot.getOrientation());
 		}
 		return true;
 	}

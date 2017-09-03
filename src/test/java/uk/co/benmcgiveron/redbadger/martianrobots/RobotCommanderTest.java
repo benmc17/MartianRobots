@@ -31,7 +31,7 @@ public class RobotCommanderTest {
 	public void sampleInputTest() {
 		boolean result = robotCommander.commandRobot(new File("src/test/resources/sampleinput.txt"));
 		
-		String expected = "1 1 E\r\n3 3 N LOST\r\n2 4 S LOST\r\n";
+		String expected = "1 1 E\r\n3 3 N LOST\r\n2 3 S\r\n";
 		assertTrue(result);
 		assertEquals(expected, reader.getOutput());
 	}

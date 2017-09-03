@@ -42,6 +42,11 @@ public class RobotImpl implements Robot {
 	public int getY() {
 		return location.getY();
 	}
+	
+	@Override
+	public Coords getLocation() {
+		return location;
+	}
 
 	@Override
 	public boolean moveForward() {

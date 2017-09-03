@@ -19,21 +19,25 @@ public class CommandTest {
 	}
 	
 	@Test
-	public void nullRobotTest() {
+	public void moveForwardLostRobotTest() {
 		final Command moveForwardCommand = new MoveForward();
 		
-		boolean result = moveForwardCommand.executeCommand(null);
+		Coords newLocation = moveForwardCommand.executeCommand(testRobot, new TestFalseMars());
 		
-		assertFalse(result);
+		assertNotNull(newLocation);
+		assertTrue(testRobot.movedForward);
+		assertFalse(testRobot.movedBackward);
+		assertFalse(testRobot.turnedLeft);
+		assertFalse(testRobot.turnedRight);
 	}
 	
 	@Test
 	public void moveForwardTest() {
 		final Command moveForwardCommand = new MoveForward();
 		
-		boolean result = moveForwardCommand.executeCommand(testRobot);
+		Coords newLocation = moveForwardCommand.executeCommand(testRobot, new TestTrueMars());
 		
-		assertTrue(result);
+		assertNull(newLocation);
 		assertTrue(testRobot.movedForward);
 		assertFalse(testRobot.movedBackward);
 		assertFalse(testRobot.turnedLeft);
@@ -44,9 +48,9 @@ public class CommandTest {
 	public void moveLeftTest() {
 		final Command moveForwardCommand = new MoveLeft();
 		
-		boolean result = moveForwardCommand.executeCommand(testRobot);
+		Coords newLocation = moveForwardCommand.executeCommand(testRobot, new TestTrueMars());
 		
-		assertTrue(result);
+		assertNull(newLocation);
 		assertFalse(testRobot.movedForward);
 		assertFalse(testRobot.movedBackward);
 		assertTrue(testRobot.turnedLeft);
@@ -57,13 +61,27 @@ public class CommandTest {
 	public void moveRightTest() {
 		final Command moveForwardCommand = new MoveRight();
 		
-		boolean result = moveForwardCommand.executeCommand(testRobot);
+		Coords newLocation = moveForwardCommand.executeCommand(testRobot, new TestTrueMars());
 		
-		assertTrue(result);
+		assertNull(newLocation);
 		assertFalse(testRobot.movedForward);
 		assertFalse(testRobot.movedBackward);
 		assertFalse(testRobot.turnedLeft);
 		assertTrue(testRobot.turnedRight);
+	}
+	
+	private static class TestFalseMars implements Mars {
+		@Override
+		public boolean isOnMars(Robot robot) {
+			return false;
+		}
+	}
+	
+	private static class TestTrueMars implements Mars {
+		@Override
+		public boolean isOnMars(Robot robot) {
+			return true;
+		}
 	}
 	
 	private static class TestRobot implements Robot {
@@ -110,6 +128,11 @@ public class CommandTest {
 		public boolean turnRight() {
 			turnedRight = true;
 			return true;
+		}
+
+		@Override
+		public Coords getLocation() {
+			return null;
 		}
 	}
 }
