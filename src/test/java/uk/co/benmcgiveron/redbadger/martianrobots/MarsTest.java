@@ -135,15 +135,15 @@ public class MarsTest {
 		}
 
 		@Override
-		public void moveForward() {}
+		public boolean moveForward() {return true;}
 
 		@Override
-		public void moveBackward() {}
+		public boolean moveBackward() {return true;}
 
 		@Override
-		public void turnLeft() {}
+		public boolean turnLeft() {return true;}
 
 		@Override
-		public void turnRight() {}
+		public boolean turnRight() {return true;}
 	}
 }

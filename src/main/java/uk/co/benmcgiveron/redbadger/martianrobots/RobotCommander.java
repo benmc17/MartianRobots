@@ -1,7 +1,9 @@
 package uk.co.benmcgiveron.redbadger.martianrobots;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 import uk.co.benmcgiveron.redbadger.martianrobots.commands.CommandFactory;
 import uk.co.benmcgiveron.redbadger.martianrobots.impl.MarsImpl;
@@ -44,6 +46,7 @@ public class RobotCommander {
 			int marsX = in.nextInt();
 			int marsY = in.nextInt();
 			
+			final Set<Coords> scents = new HashSet<Coords>();
 			mars = new MarsImpl(marsX, marsY);
 
 			while(in.hasNext()) {
@@ -55,7 +58,7 @@ public class RobotCommander {
 					System.out.print("Error: A robot has an invalid orientation, it could be floating in space?");
 					return false;
 				}
-				Robot robot = new RobotImpl(robotX, robotY, orientation);
+				Robot robot = new RobotImpl(robotX, robotY, orientation, scents);
 				
 				if(!executeCommands(robot, in.next())) {
 					System.out.print("Error: Unable to execute commands, there could be an unrecognised command?");

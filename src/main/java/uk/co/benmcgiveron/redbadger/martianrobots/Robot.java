@@ -16,11 +16,11 @@ public interface Robot {
 	
 	int getY();
 	
-	void moveForward();
+	boolean moveForward();
 	
-	void moveBackward();
+	boolean moveBackward();
 	
-	void turnLeft();
+	boolean turnLeft();
 	
-	void turnRight();
+	boolean turnRight();
 }

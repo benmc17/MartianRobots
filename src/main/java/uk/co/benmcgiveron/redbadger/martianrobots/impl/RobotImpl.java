@@ -1,5 +1,7 @@
 package uk.co.benmcgiveron.redbadger.martianrobots.impl;
 
+import java.util.Set;
+
 import uk.co.benmcgiveron.redbadger.martianrobots.Coords;
 import uk.co.benmcgiveron.redbadger.martianrobots.Orientation;
 import uk.co.benmcgiveron.redbadger.martianrobots.Robot;
@@ -18,9 +20,12 @@ public class RobotImpl implements Robot {
 	
 	private Orientation orientation;
 	
-	public RobotImpl(int x, int y, Orientation orientation) {
+	private Set<Coords> robotScents;
+	
+	public RobotImpl(int x, int y, Orientation orientation, Set<Coords> robotScents) {
 		this.location = new Coords(x, y);
 		this.orientation = orientation;
+		this.robotScents = robotScents;
 	}
 	
 	@Override
@@ -39,49 +44,59 @@ public class RobotImpl implements Robot {
 	}
 
 	@Override
-	public void moveForward() {
+	public boolean moveForward() {
+		int x = location.getX();
+		int y = location.getY();
+
+		switch(orientation) {
+			case NORTH:
+				y++;
+				break;
+			case SOUTH:
+				y--;
+				break;
+			case EAST:
+				x++;
+				break;
+			case WEST:
+				x--;
+				break;
+		}
+		if(hasScent(x, y)) return false;
+		
+		location.setY(y);
+		location.setX(x);
+		return true;
+	}
+
+	@Override
+	public boolean moveBackward() {
 		int x = location.getX();
 		int y = location.getY();
 		
 		switch(orientation) {
 			case NORTH:
-				location.setY(y+1);
+				y--;
 				break;
 			case SOUTH:
-				location.setY(y-1);
+				y++;
 				break;
 			case EAST:
-				location.setX(x+1);
+				x--;
 				break;
 			case WEST:
-				location.setX(x-1);
+				x++;
 				break;
 		}
-	}
-
-	@Override
-	public void moveBackward() {
-		int x = location.getX();
-		int y = location.getY();
+		if(hasScent(x, y)) return false;
 		
-		switch(orientation) {
-			case NORTH:
-				location.setY(y-1);
-				break;
-			case SOUTH:
-				location.setY(y+1);
-				break;
-			case EAST:
-				location.setX(x-1);
-				break;
-			case WEST:
-				location.setX(x+1);
-				break;
-		}
+		location.setY(y);
+		location.setX(x);
+		return true;
 	}
 
 	@Override
-	public void turnLeft() {
+	public boolean turnLeft() {
 		switch(orientation) {
 			case NORTH:
 				orientation = Orientation.WEST;
@@ -96,10 +111,11 @@ public class RobotImpl implements Robot {
 				orientation = Orientation.SOUTH;
 				break;
 		}
+		return true;
 	}
 
 	@Override
-	public void turnRight() {
+	public boolean turnRight() {
 		switch(orientation) {
 			case NORTH:
 				orientation = Orientation.EAST;
@@ -114,5 +130,10 @@ public class RobotImpl implements Robot {
 				orientation = Orientation.NORTH;
 				break;
 		}
+		return true;
+	}
+	
+	private boolean hasScent(int x, int y) {
+		return robotScents.contains(new Coords(x, y));
 	}
 }

@@ -26,4 +26,17 @@ public class Coords {
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if(!(object instanceof Coords)) return false;
+		
+		Coords compare = (Coords)object;
+		return compare.x == this.x && compare.y == this.y;
+	}
+	
+	@Override
+	public int hashCode() {
+		return x + y / 2;
+	}
 }

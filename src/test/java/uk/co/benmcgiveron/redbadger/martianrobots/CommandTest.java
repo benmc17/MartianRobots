@@ -89,23 +89,27 @@ public class CommandTest {
 		}
 
 		@Override
-		public void moveForward() {
+		public boolean moveForward() {
 			movedForward = true;
+			return true;
 		}
 
 		@Override
-		public void moveBackward() {
+		public boolean moveBackward() {
 			movedBackward = true;
+			return true;
 		}
 
 		@Override
-		public void turnLeft() {
+		public boolean turnLeft() {
 			turnedLeft = true;
+			return true;
 		}
 
 		@Override
-		public void turnRight() {
+		public boolean turnRight() {
 			turnedRight = true;
+			return true;
 		}
 	}
 }
