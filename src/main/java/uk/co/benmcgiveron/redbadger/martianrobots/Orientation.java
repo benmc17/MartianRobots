@@ -1,5 +1,12 @@
 package uk.co.benmcgiveron.redbadger.martianrobots;
 
+/**
+ * Basic enum for representing orientation (NORTH, SOUTH, EAST, WEST)
+ * 
+ * @author Ben
+ * @version 1.0
+ * @since 1.0
+ */
 public enum Orientation {
 	NORTH("N"),
 	SOUTH("S"),

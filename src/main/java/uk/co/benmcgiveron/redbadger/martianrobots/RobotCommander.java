@@ -27,6 +27,12 @@ public class RobotCommander {
 		return robotCommander.commandRobot(inputCommands) ? 0 : 1;
 	}
 	
+	/**
+	 * orchestrates the operation and prints the output
+	 * 
+	 * @param inputCommands
+	 * @return false if operation fails, true otherwise
+	 */
 	public boolean commandRobot(File inputCommands) {
 		if(!inputCommands.exists() || inputCommands.isDirectory()) {
 			System.out.print("Error: input file does not exist");
@@ -70,6 +76,13 @@ public class RobotCommander {
 		return true;
 	}
 	
+	/**
+	 * Executes the input commands.
+	 * 
+	 * @param robot
+	 * @param commandLine
+	 * @return false if operation fails, true otherwise
+	 */
 	private static boolean executeCommands(Robot robot, String commandLine) {
 		if(commandLine == null) return false;
 		
